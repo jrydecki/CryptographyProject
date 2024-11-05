@@ -3,6 +3,8 @@
 #include <openssl/rand.h>
 #include <cstring>
 
+using namespace std;
+
 void handleErrors() {
     std::cerr << "An error occurred" << std::endl;
     exit(1);
@@ -66,6 +68,7 @@ int aes_decrypt(const unsigned char *ciphertext, int ciphertext_len,
 
 int main() {
     // 256-bit key and a 128-bit IV
+    //
     unsigned char key[32];
     unsigned char iv[16];
 

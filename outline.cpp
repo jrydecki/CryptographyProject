@@ -3,8 +3,10 @@
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 #include <cstring>
+#include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 
 void GenerateKey(int byte_length){
 
@@ -27,6 +29,10 @@ void AES_Decrypt(char* iv, char* key, char* ciphertext, int mode){
 
 int main() {
 
-
+	// How to Time
+	auto start = high_resolution_clock::now();
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(stop - start);
+	cout << duration.count() << endl;
 
 } // end main
