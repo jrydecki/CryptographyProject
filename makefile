@@ -15,8 +15,8 @@ endif
 
 all: main
 
-main: main.cpp
-	g++ main.cpp -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto
+main: outline.cpp
+	g++ outline.cpp -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto
 
 outline: outline.cpp
 	g++ outline.cpp -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto
