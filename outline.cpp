@@ -7,6 +7,20 @@
 
 using namespace std;
 
+enum MODE {
+  CBC = 1,
+  OFB = 2,
+  CTR = 3
+};
+
+void handle_error(){
+
+} // end handle_error
+
+int get_length(unsigned char *char_arr){
+    // Get length of character array
+} // end length
+
 void GenerateAESKey(unsigned char* byte_length){
 	// generate key for AES Modes
 } // end GenerateKey
@@ -24,43 +38,133 @@ void GenerateDESIV(unsigned char* byte_length){
 } // end GenerateIV
 
 void AES_Encrypt(unsigned char* iv, unsigned char* key, unsigned char* plaintext, int mode){
-AES_KEY encryptKey;
-AES_set_encrypt_key(key, 256, &encryptKey);
 
-	// logic for encryption in each mode, using
-	AES_encrypt();
+    // AES key structure
+    AES_KEY encryptKey, decryptKey;
+    AES_set_encrypt_key(key, 256, &encryptKey);
+
+    if (mode == CBC){
+        for (int i = 0; i < get_length(plaintext); i++){
+
+            // Calculate CBC Block To Encrypt
+            unsigned char block[16];
+            unsigned char ciphertext_block[16];
+            AES_encrypt(block, ciphertext_block, &encryptKey);
+        }
+    }
+
+    else if (mode == OFB){
+        for (int i = 0; i < get_length(plaintext); i++){
+
+            // Calculate OFB Block To Encrypt
+            unsigned char block[16];
+            unsigned char ciphertext_block[16];
+
+            AES_encrypt(block, ciphertext_block, &encryptKey);
+        }
+    }
+
+
+    else if (mode == CTR){
+        for (int i = 0; i < get_length(plaintext); i++){
+
+            // Calculate CTR Block To Encrypt
+            unsigned char block[16];
+            unsigned char ciphertext_block[16];
+
+            AES_encrypt(block, ciphertext_block, &encryptKey);
+        }
+    }
+
+    else{
+        handle_error();
+    }
+	
 	// for encrypting single block
 
 } // end AES_Encrypt
 
 void AES_Decrypt(unsigned char* iv, unsigned char* key, unsigned char* ciphertext, int mode){
-AES_KEY decryptKey;
-AES_set_decrypt_key(key, 256, &decryptKey);
+    AES_KEY decryptKey;
+    AES_set_decrypt_key(key, 256, &decryptKey);
 
-	// logic for encryption in each mode, using
-	AES_decrypt();
-	// for encrypting single block
+	if (mode == CBC){
+        for (int i = 0; i < get_length(ciphertext); i++){
+
+            // Calculate CBC Block To Encrypt
+            unsigned char block[16];
+            unsigned char plaintext_block[16];
+            AES_decrypt(block, plaintext_block, &decryptKey);
+        }
+    }
+
+    else if (mode == OFB){
+        for (int i = 0; i < get_length(ciphertext); i++){
+
+            // Calculate OFB Block To Encrypt
+            unsigned char block[16];
+            unsigned char plaintext_block[16];
+
+            AES_decrypt(block, plaintext_block, &decryptKey);
+        }
+    }
+
+
+    else if (mode == CTR){
+        for (int i = 0; i < get_length(ciphertext); i++){
+
+            // Calculate CTR Block To Encrypt
+            unsigned char block[16];
+            unsigned char plaintext_block[16];
+
+            AES_decrypt(block, plaintext_block, &decryptKey);
+        }
+    }
+
+    else{
+        handle_error();
+    }
 
 } // end AES_Decrypt
 
-void DES_CBC_Encrypt(unsigned char* plaintext, unsigned char* ciphertext, int length, DES_cblock& key, DES_cblock& iv) {
+void DES_CBC_Encrypt(unsigned char* plaintext, unsigned char* ciphertext, int length, DES_cblock& key, DES_cblock& iv, int mode) {
     DES_key_schedule schedule;
     DES_set_key_unchecked(&key, &schedule);
 
-	// logic for encryption in each mode, using
-	DES_encrypt1();
-	// for encrypting single block
+	if (mode == CBC){
+        for (int i = 0; i < get_length(ciphertext); i++){
+
+            // Calculate CBC Block To Encrypt
+            DES_LONG block[16];
+            unsigned char plaintext_block[16];
+            DES_encrypt1(block, &schedule, 1);
+        }
+    }
+
+    else {
+        handle_error();
+    }
 
 } // end of DES_Encrypt
 
-void DES_CBC_Decrypt(unsigned char* ciphertext, unsigned char* plaintext, int length, DES_cblock& key, DES_cblock& iv) {
+void DES_CBC_Decrypt(unsigned char* ciphertext, unsigned char* plaintext, int length, DES_cblock& key, DES_cblock& iv, int mode) {
     DES_key_schedule schedule;
     DES_set_key_unchecked(&key, &schedule);
 
-	// logic for encryption in each mode, using
-	DES_encrypt1();
-	// which is also used for decrypting single block
 
+    if (mode == CBC){
+        for (int i = 0; i < get_length(ciphertext); i++){
+
+            // Calculate CBC Block To Encrypt
+            DES_LONG block[16];
+            unsigned char plaintext_block[16];
+            DES_encrypt1(block, &schedule, 0);
+        }
+    }
+
+    else {
+        handle_error();
+    }
 } // end of DES_Decrypt
 
 // CTR and OFB modes for both AES and DES would similarly involve 
