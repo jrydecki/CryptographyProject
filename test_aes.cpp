@@ -21,19 +21,66 @@ void handle_error(){
 
 }
 
-void Custom_Encrypt(char* plaintext, int plaintext_len, char* ciphertext, unsigned char* key, unsigned char* iv){
+void Custom_CBC_Encrypt(char* plaintext, int plaintext_len, char* ciphertext, unsigned char* key, unsigned char* iv){
+
+} // end Custom_CBC_Encrypt
+
+void Custom_CBC_Decrypt(char* ciphertext, int ciphertext_len, char* plaintext, unsigned char* key, unsigned char* iv){
+
+} // end Custom_CBC_Decrypt
+
+void Custom_OFB_Encrypt(char* plaintext, int plaintext_len, char* ciphertext, unsigned char* key, unsigned char* iv){
+
+} // end Custom_OFB_Encrypt
+
+void Custom_OFB_Decrypt(char* ciphertext, int ciphertext_len, char* plaintext, unsigned char* key, unsigned char* iv){
+
+} // end Custom_OFB_Decrypt
+
+void Custom_CTR_Encrypt(char* plaintext, int plaintext_len, char* ciphertext, unsigned char* key, unsigned char* iv){
+
+} // end Custom_CTR_Encrypt
+
+void Custom_CTR_Decrypt(char* ciphertext, int ciphertext_len, char* plaintext, unsigned char* key, unsigned char* iv){
+
+} // end Custom_CTR_Decrypt
+
+
+void Custom_Encrypt(char* plaintext, int plaintext_len, char* ciphertext, unsigned char* key, unsigned char* iv, int mode){
+    if (mode == CBC)
+        Custom_CBC_Encrypt(plaintext, plaintext_len, ciphertext, key, iv);
+
+    else if (mode == OFB)
+        Custom_OFB_Encrypt(plaintext, plaintext_len, ciphertext, key, iv);
+
+    else if (mode == CTR)
+        Custom_CTR_Encrypt(plaintext, plaintext_len, ciphertext, key, iv);
+
+    else
+        handle_error();
 
 } // end Custom_Encrypt
 
-void Custom_Decrypt(char* ciphertext, int ciphertext_len, char* plaintext, unsigned char* key, unsigned char* iv){
+void Custom_Decrypt(char* ciphertext, int ciphertext_len, char* plaintext, unsigned char* key, unsigned char* iv, int mode){
+    if (mode == CBC)
+        Custom_CBC_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv);
+
+    else if (mode == OFB)
+        Custom_OFB_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv);
+
+    else if (mode == CTR)
+        Custom_CTR_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv);
+
+    else
+        handle_error();
 
 } // end Custom_Decrypt
 
-void OpenSSL_Encrypt(char* plaintext, int plaintext_len, char* ciphertext, unsigned char* key, unsigned char* iv){
+void OpenSSL_Encrypt(char* plaintext, int plaintext_len, char* ciphertext, unsigned char* key, unsigned char* iv, int mode){
     // https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
 } // end OpenSSL_Encrypt
 
-void OpenSSL_Decrypt(char* ciphertext, int ciphertext_len, char* plaintext, unsigned char* key, unsigned char* iv){
+void OpenSSL_Decrypt(char* ciphertext, int ciphertext_len, char* plaintext, unsigned char* key, unsigned char* iv, int mode){
     // https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
 } // end OpenSSL_Decrypt
 
@@ -46,6 +93,9 @@ int main() {
     using std::chrono::duration_cast;
     using std::chrono::duration;
     using std::chrono::milliseconds;
+    auto t1 = high_resolution_clock::now();
+    auto t2 = high_resolution_clock::now();
+    duration<double, std::milli> ms_double;
 
     // Open Data/Message File
     ifstream iFile("data-1mb.bin", std::ios::binary | std::ios::ate);
@@ -59,39 +109,110 @@ int main() {
     char ciphertext[ciphertext_len];
     char plaintext[plaintext_len];
 
-    // Get Data/Message Length
+    // Read & Store Data/Message Length
     iFile.read(plaintext, plaintext_len);
     iFile.close();
+    
 
 
-    // OpenSSL Encryption
-    auto t1 = high_resolution_clock::now();
-    OpenSSL_Encrypt(plaintext, plaintext_len, ciphertext, key, iv);
-    auto t2 = high_resolution_clock::now();
-    duration<double, std::milli> ms_double = t2 - t1;
-    cout << "OpenSSL Encryption: " << ms_double.count() << " ms\n";
-
-    // OpenSSL Decryption
+    /////////////////// OpenSSL ///////////////////
+    cout << "OpenSSL\n";
+    cout << "CBC:\n";
     t1 = high_resolution_clock::now();
-    OpenSSL_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv);
+    OpenSSL_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CBC);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
-    cout << "OpenSSL Decryption: " << ms_double.count() << " ms\n";
-
-    // Custom Encryption
+    cout << "\tEncrypt: " << ms_double.count() << " ms\n";
     t1 = high_resolution_clock::now();
-    Custom_Encrypt(ciphertext, ciphertext_len, plaintext, key, iv);
+    OpenSSL_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, CBC);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
-    cout << "Custom Encryption: " << ms_double.count() << " ms\n";
+    cout << "\tDecrypt: " << ms_double.count() << " ms\n";
 
-
-    // Custom Decryption
+    cout << "OFB:\n";
     t1 = high_resolution_clock::now();
-    Custom_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv);
+    OpenSSL_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, OFB);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
-    cout << "Custom Decryption: " << ms_double.count() << " ms\n";
+    cout << "\tEncrypt: " << ms_double.count() << " ms\n";
+    t1 = high_resolution_clock::now();
+    OpenSSL_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, OFB);
+    t2 = high_resolution_clock::now();
+    ms_double = t2 - t1;
+    cout << "\tDecrypt: " << ms_double.count() << " ms\n";
+
+    cout << "CTR:\n";
+    t1 = high_resolution_clock::now();
+    OpenSSL_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
+    t2 = high_resolution_clock::now();
+    ms_double = t2 - t1;
+    cout << "\tEncrypt: " << ms_double.count() << " ms\n";
+    t1 = high_resolution_clock::now();
+    OpenSSL_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
+    t2 = high_resolution_clock::now();
+    ms_double = t2 - t1;
+    cout << "\tDecrypt: " << ms_double.count() << " ms\n";
+    cout << "\n";
+    
+    /////////////////// Custom ///////////////////
+    cout << "Custom Modes\n";
+    cout << "CBC\n";
+    t1 = high_resolution_clock::now();
+    Custom_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CBC);
+    t2 = high_resolution_clock::now();
+    ms_double = t2 - t1;
+    cout << "\tEncrypt: " << ms_double.count() << " ms\n";
+    t1 = high_resolution_clock::now();
+    Custom_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, CBC);
+    t2 = high_resolution_clock::now();
+    ms_double = t2 - t1;
+    cout << "\tDecrypt: " << ms_double.count() << " ms\n";
+
+    cout << "OFB\n";
+    t1 = high_resolution_clock::now();
+    Custom_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, OFB);
+    t2 = high_resolution_clock::now();
+    ms_double = t2 - t1;
+    cout << "\tEncrypt: " << ms_double.count() << " ms\n";
+    t1 = high_resolution_clock::now();
+    Custom_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, OFB);
+    t2 = high_resolution_clock::now();
+    ms_double = t2 - t1;
+    cout << "\tDecrypt: " << ms_double.count() << " ms\n";
+
+    cout << "CTR\n";
+    t1 = high_resolution_clock::now();
+    Custom_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
+    t2 = high_resolution_clock::now();
+    ms_double = t2 - t1;
+    cout << "\tEncrypt: " << ms_double.count() << " ms\n";
+    t1 = high_resolution_clock::now();
+    Custom_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
+    t2 = high_resolution_clock::now();
+    ms_double = t2 - t1;
+    cout << "\tDecrypt: " << ms_double.count() << " ms\n";
+
+    // // OpenSSL Decryption
+    // t1 = high_resolution_clock::now();
+    // OpenSSL_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CBC);
+    // t2 = high_resolution_clock::now();
+    // ms_double = t2 - t1;
+    // cout << "OpenSSL Decryption: " << ms_double.count() << " ms\n";
+
+    // // Custom Encryption
+    // t1 = high_resolution_clock::now();
+    // Custom_Encrypt(ciphertext, ciphertext_len, plaintext, key, iv, CBC);
+    // t2 = high_resolution_clock::now();
+    // ms_double = t2 - t1;
+    // cout << "Custom Encryption: " << ms_double.count() << " ms\n";
+
+
+    // // Custom Decryption
+    // t1 = high_resolution_clock::now();
+    // Custom_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CBC);
+    // t2 = high_resolution_clock::now();
+    // ms_double = t2 - t1;
+    // cout << "Custom Decryption: " << ms_double.count() << " ms\n";
 
 
 
