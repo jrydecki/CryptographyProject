@@ -41,23 +41,25 @@ void OpenSSL_Decrypt(char* ciphertext, int ciphertext_len, char* plaintext, unsi
 
 int main() {
 
-    // https://stackoverflow.com/a/22387757
+    // Clock Usage -- https://stackoverflow.com/a/22387757
     using std::chrono::high_resolution_clock;
     using std::chrono::duration_cast;
     using std::chrono::duration;
     using std::chrono::milliseconds;
 
-    unsigned char key[32];
-    unsigned char iv[16];
-
+    // Open Data/Message File
     ifstream iFile("data-1mb.bin", std::ios::binary | std::ios::ate);
-    
     streamsize plaintext_len = iFile.tellg();
     int ciphertext_len = plaintext_len + EVP_CIPHER_block_size(EVP_aes_256_cbc()); // This is the Max Length
     iFile.seekg(0, std::ios::beg);
 
+    // Define Variables
+    unsigned char key[32];
+    unsigned char iv[16];
     char ciphertext[ciphertext_len];
     char plaintext[plaintext_len];
+
+    // Get Data/Message Length
     iFile.read(plaintext, plaintext_len);
     iFile.close();
 
