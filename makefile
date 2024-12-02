@@ -13,12 +13,21 @@ else
 endif
 
 
-all: main
+all: aes
 
-main: outline.cpp
-	g++ outline.cpp -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto
+aes: test_aes.cpp
+	g++ -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto -o test_aes test_aes.cpp 
+
+des: test_des.cpp
+	g++ -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto -o test_des test_des.cpp
+
+3des: test_3des.cpp
+	g++ -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto -o test_3des test_3des.cpp
 
 outline: outline.cpp
 	g++ outline.cpp -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto
+
+run:
+	./test_aes
 
 

@@ -1,2 +1,7 @@
 *.out
 .vscode
+test_aes
+test_des
+test_3des
+data-10mb.bin
+data-1GB.bin
