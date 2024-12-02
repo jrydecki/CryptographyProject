@@ -113,7 +113,7 @@ int main() {
     iFile.read(plaintext, plaintext_len);
     iFile.close();
     
-
+    cout << "*** AES ***\n";
 
     /////////////////// OpenSSL ///////////////////
     cout << "OpenSSL\n";
@@ -153,7 +153,7 @@ int main() {
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";
     cout << "\n";
-    
+
     /////////////////// Custom ///////////////////
     cout << "Custom Modes\n";
     cout << "CBC\n";
@@ -192,27 +192,7 @@ int main() {
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";
 
-    // // OpenSSL Decryption
-    // t1 = high_resolution_clock::now();
-    // OpenSSL_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CBC);
-    // t2 = high_resolution_clock::now();
-    // ms_double = t2 - t1;
-    // cout << "OpenSSL Decryption: " << ms_double.count() << " ms\n";
-
-    // // Custom Encryption
-    // t1 = high_resolution_clock::now();
-    // Custom_Encrypt(ciphertext, ciphertext_len, plaintext, key, iv, CBC);
-    // t2 = high_resolution_clock::now();
-    // ms_double = t2 - t1;
-    // cout << "Custom Encryption: " << ms_double.count() << " ms\n";
-
-
-    // // Custom Decryption
-    // t1 = high_resolution_clock::now();
-    // Custom_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CBC);
-    // t2 = high_resolution_clock::now();
-    // ms_double = t2 - t1;
-    // cout << "Custom Decryption: " << ms_double.count() << " ms\n";
+    cout << "********************\n";
 
 
 
