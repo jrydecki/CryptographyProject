@@ -27,7 +27,3 @@ des: test_des.cpp
 outline: outline.cpp
 	g++ outline.cpp -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto
 
-run:
-	./test_aes
-
-

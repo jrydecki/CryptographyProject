@@ -123,7 +123,7 @@ int main() {
     ms_double = t2 - t1;
     cout << "\tEncrypt: " << ms_double.count() << " ms\n";
     t1 = high_resolution_clock::now();
-    OpenSSL_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, CBC);
+    OpenSSL_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CBC);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";
@@ -135,7 +135,7 @@ int main() {
     ms_double = t2 - t1;
     cout << "\tEncrypt: " << ms_double.count() << " ms\n";
     t1 = high_resolution_clock::now();
-    OpenSSL_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, OFB);
+    OpenSSL_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, OFB);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";
@@ -147,7 +147,7 @@ int main() {
     ms_double = t2 - t1;
     cout << "\tEncrypt: " << ms_double.count() << " ms\n";
     t1 = high_resolution_clock::now();
-    OpenSSL_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
+    OpenSSL_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CTR);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";
@@ -155,44 +155,42 @@ int main() {
 
     /////////////////// Custom ///////////////////
     cout << "Custom Modes\n";
-    cout << "CBC\n";
+    cout << "CBC:\n";
     t1 = high_resolution_clock::now();
     Custom_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CBC);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tEncrypt: " << ms_double.count() << " ms\n";
     t1 = high_resolution_clock::now();
-    Custom_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, CBC);
+    Custom_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CBC);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";
 
-    cout << "OFB\n";
+    cout << "OFB:\n";
     t1 = high_resolution_clock::now();
     Custom_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, OFB);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tEncrypt: " << ms_double.count() << " ms\n";
     t1 = high_resolution_clock::now();
-    Custom_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, OFB);
+    Custom_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, OFB);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";
 
-    cout << "CTR\n";
+    cout << "CTR:\n";
     t1 = high_resolution_clock::now();
     Custom_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tEncrypt: " << ms_double.count() << " ms\n";
     t1 = high_resolution_clock::now();
-    Custom_Decrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
+    Custom_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CTR);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";
 
     cout << "********************\n";
-
-
 
 } // end main
