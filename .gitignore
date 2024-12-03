@@ -3,5 +3,6 @@
 test_aes
 test_des
 test_3des
+test
 data-10mb.bin
 data-1GB.bin

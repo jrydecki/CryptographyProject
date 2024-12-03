@@ -96,14 +96,6 @@ void Encrypt_Block(unsigned char* plaintext, unsigned char* ciphertext, const un
     EVP_CIPHER_CTX_free(ctx);
 } // end Encrypt_Block
 
-/* Deprecated Version */
-// void Encrypt_Block(unsigned char* plaintext, unsigned char* ciphertext, unsigned char* key){
-//     AES_KEY aes_key;
-//     if (AES_set_encrypt_key(key, 128, &aes_key) != 0)
-//         handle_error("AES_set_encrypt_key failed!");
-//     AES_encrypt(plaintext, ciphertext, &aes_key);
-// } 
-
 void Decrypt_Block(unsigned char* ciphertext, unsigned char* plaintext, const unsigned char* key){
     int out_len = 0;
     EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
