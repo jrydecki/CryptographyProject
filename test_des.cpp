@@ -5,6 +5,7 @@
 
 #include <openssl/aes.h>
 #include <openssl/des.h>
+#include <openssl/err.h>
 #include <openssl/rand.h>
 
 # define IV_LEN 8
@@ -96,14 +97,16 @@ void Encrypt_Block(unsigned char* plaintext, unsigned char* ciphertext, const un
     EVP_CIPHER_CTX_free(ctx);
 } // end Encrypt_Block
 
-void Decrypt_Block(unsigned char* ciphertext, unsigned char* plaintext, const unsigned char* key){
+void Decrypt_Block(unsigned char* ciphertext, unsigned char* plaintext, unsigned char* key){
     int out_len = 0;
     EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
     if (!ctx)
         handle_error("ctx Failed to Initialize.");
 
-    if (1 != EVP_DecryptInit_ex(ctx, EVP_aes_128_ecb(), nullptr, key, nullptr))
+    if (1 != EVP_DecryptInit_ex(ctx, EVP_des_ecb(), nullptr, key, nullptr)){
+        ERR_print_errors_fp(stderr);
         handle_error("DecryptInit Failed.");
+    }
 
     EVP_CIPHER_CTX_set_padding(ctx, 0);
 

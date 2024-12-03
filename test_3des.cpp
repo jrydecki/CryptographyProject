@@ -102,7 +102,7 @@ void Decrypt_Block(unsigned char* ciphertext, unsigned char* plaintext, const un
     if (!ctx)
         handle_error("ctx Failed to Initialize.");
 
-    if (1 != EVP_DecryptInit_ex(ctx, EVP_aes_128_ecb(), nullptr, key, nullptr))
+    if (1 != EVP_DecryptInit_ex(ctx, EVP_des_ede3_ecb(), nullptr, key, nullptr))
         handle_error("DecryptInit Failed.");
 
     EVP_CIPHER_CTX_set_padding(ctx, 0);
