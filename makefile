@@ -6,8 +6,8 @@ ifeq ($(UNAME), Linux)
     INCLUDE_PATH = /usr/include 
     LIB_PATH = /usr/lib64 
 else ifeq ($(UNAME), Darwin)
-    INCLUDE_PATH = /opt/homebrew/opt/openssl/include
-    LIB_PATH = /opt/homebrew/opt/openssl/lib
+    INCLUDE_PATH = /opt/homebrew/opt/openssl/include -I/opt/homebrew/opt/cryptopp/include
+    LIB_PATH = /opt/homebrew/opt/openssl/lib -L/opt/homebrew/opt/cryptopp/lib
 else
     OS = "Unknown OS"
 endif

@@ -8,6 +8,11 @@
 #include <openssl/err.h>
 #include <openssl/rand.h>
 
+#include <cryptopp/modes.h>
+#include <cryptopp/des.h>
+#include <cryptopp/filters.h>
+#include <cryptopp/osrng.h>
+
 # define IV_LEN 8
 # define BLOCK_LEN 8
 # define KEY_LEN 8
