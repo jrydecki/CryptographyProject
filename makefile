@@ -19,10 +19,10 @@ aes: test_aes.cpp
 	g++ -std=c++11 -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto -o test_aes test_aes.cpp 
 
 des: test_des.cpp
-	g++ -std=c++11 -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto -o test_des test_des.cpp
+	g++ -std=c++11 -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto -lcryptopp -o test_des test_des.cpp
 
 3des: test_3des.cpp
-	g++ -std=c++11 -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto -o test_3des test_3des.cpp
+	g++ -std=c++11 -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto -lcryptopp -o test_3des test_3des.cpp
 
 test: test.cpp
 	g++ -std=c++11 -I$(INCLUDE_PATH) -L$(LIB_PATH) -lssl -lcrypto -o test test.cpp
