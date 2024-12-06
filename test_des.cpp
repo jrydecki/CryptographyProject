@@ -306,6 +306,45 @@ void OpenSSL_Encrypt(unsigned char* plaintext, int plaintext_len, unsigned char*
 
 void OpenSSL_Decrypt(unsigned char* ciphertext, int ciphertext_len, unsigned char* plaintext, unsigned char* key, unsigned char* iv, int mode){
     // https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx)
+        handle_error("Failed to create EVP_CIPHER_CTX.");
+
+    const EVP_CIPHER* cipher = nullptr;
+
+    // Select cipher mode
+    switch (mode) {
+        case CBC:
+            cipher = EVP_des_cbc();
+            break;
+        case OFB:
+            cipher = EVP_des_ofb();
+            break;
+        default:
+            handle_error("Unknown OpenSSL Decryption Mode.");
+    }
+
+    // Initialize Decryption
+    if (1 != EVP_DecryptInit_ex(ctx, cipher, nullptr, key, iv))
+        handle_error("Decryption Initialization Failed.");
+
+    // Ensure consistent padding
+    EVP_CIPHER_CTX_set_padding(ctx, 0);
+
+    int len = 0;
+    int plaintext_len = 0;
+
+    // Decrypt ciphertext
+    if (1 != EVP_DecryptUpdate(ctx, plaintext, &len, ciphertext, ciphertext_len))
+        handle_error("Decryption Update Failed.");
+    plaintext_len += len;
+
+    // Finalize decryption
+    if (1 != EVP_DecryptFinal_ex(ctx, plaintext + plaintext_len, &len))
+        handle_error("Decryption Finalize Failed.");
+    plaintext_len += len;
+
+    EVP_CIPHER_CTX_free(ctx);
 } // end OpenSSL_Decrypt
 
 void CryptoPP_Encrypt_CTR(unsigned char* plaintext, int plaintext_len, unsigned char* ciphertext, unsigned char* key, unsigned char* iv) {
