@@ -268,10 +268,80 @@ void Custom_Decrypt(unsigned char* ciphertext, int ciphertext_len, unsigned char
 
 void OpenSSL_Encrypt(unsigned char* plaintext, int plaintext_len, unsigned char* ciphertext, unsigned char* key, unsigned char* iv, int mode){
     // https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    const EVP_CIPHER* cipher;
+
+    // Select cipher mode
+    switch (mode) {
+        case CBC:
+            cipher = EVP_aes_256_cbc();
+            break;
+        case OFB:
+            cipher = EVP_aes_256_ofb();
+            break;
+        case CTR:
+            cipher = EVP_aes_256_ctr();
+            break;
+        default:
+            handle_error("Invalid encryption mode.");
+    }
+
+    // Initialize encryption
+    if (1 != EVP_EncryptInit_ex(ctx, cipher, nullptr, key, iv))
+        handle_error("Encryption initialization failed.");
+
+    int len = 0, ciphertext_len = 0;
+
+    // Encrypt plaintext
+    if (1 != EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, plaintext_len))
+        handle_error("Encryption failed.");
+    ciphertext_len += len;
+
+    // Finalize encryption
+    if (1 != EVP_EncryptFinal_ex(ctx, ciphertext + ciphertext_len, &len))
+        handle_error("Final encryption step failed.");
+    ciphertext_len += len;
+
+    EVP_CIPHER_CTX_free(ctx);
 } // end OpenSSL_Encrypt
 
 void OpenSSL_Decrypt(unsigned char* ciphertext, int ciphertext_len, unsigned char* plaintext, unsigned char* key, unsigned char* iv, int mode){
     // https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    const EVP_CIPHER* cipher;
+
+    // Select cipher mode
+    switch (mode) {
+        case CBC:
+            cipher = EVP_aes_256_cbc();
+            break;
+        case OFB:
+            cipher = EVP_aes_256_ofb();
+            break;
+        case CTR:
+            cipher = EVP_aes_256_ctr();
+            break;
+        default:
+            handle_error("Invalid decryption mode.");
+    }
+
+    // Initialize decryption
+    if (1 != EVP_DecryptInit_ex(ctx, cipher, nullptr, key, iv))
+        handle_error("Decryption initialization failed.");
+
+    int len = 0, plaintext_len = 0;
+
+    // Decrypt ciphertext
+    if (1 != EVP_DecryptUpdate(ctx, plaintext, &len, ciphertext, ciphertext_len))
+        handle_error("Decryption failed.");
+    plaintext_len += len;
+
+    // Finalize decryption
+    if (1 != EVP_DecryptFinal_ex(ctx, plaintext + plaintext_len, &len))
+        handle_error("Final decryption step failed.");
+    plaintext_len += len;
+
+    EVP_CIPHER_CTX_free(ctx);
 } // end OpenSSL_Decrypt
 
 

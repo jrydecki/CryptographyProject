@@ -268,11 +268,75 @@ void Custom_Decrypt(unsigned char* ciphertext, int ciphertext_len, unsigned char
 
 void OpenSSL_Encrypt(unsigned char* plaintext, int plaintext_len, unsigned char* ciphertext, unsigned char* key, unsigned char* iv, int mode){
     // https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    const EVP_CIPHER* cipher_type;
+
+    // Select the encryption mode
+    if (mode == CBC) {
+        cipher_type = EVP_des_cbc();
+    } else if (mode == OFB) {
+        cipher_type = EVP_des_ofb();
+    } else {
+        handle_error("Unknown Encryption Mode in OpenSSL_Encrypt.");
+    }
+
+    // Initialize the encryption context
+    if (1 != EVP_EncryptInit_ex(ctx, cipher_type, nullptr, key, iv)) {
+        ERR_print_errors_fp(stderr);
+        handle_error("Encryption Initialization Failed.");
+    }
+
+    // Encrypt the plaintext
+    int out_len = 0;
+    if (1 != EVP_EncryptUpdate(ctx, ciphertext, &out_len, plaintext, plaintext_len)) {
+        ERR_print_errors_fp(stderr);
+        handle_error("Encryption Failed.");
+    }
+
+    // Finalize the encryption
+    int final_len = 0;
+    if (1 != EVP_EncryptFinal_ex(ctx, ciphertext + out_len, &final_len)) {
+        ERR_print_errors_fp(stderr);
+        handle_error("Encryption Finalization Failed.");
+    }
+
+    // Clean up
+    EVP_CIPHER_CTX_free(ctx);
 } // end OpenSSL_Encrypt
 
 void OpenSSL_Decrypt(unsigned char* ciphertext, int ciphertext_len, unsigned char* plaintext, unsigned char* key, unsigned char* iv, int mode){
     // https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
 } // end OpenSSL_Decrypt
+
+void CryptoPP_Encrypt_CTR(unsigned char* plaintext, int plaintext_len, unsigned char* ciphertext, unsigned char* key, unsigned char* iv) {
+    CryptoPP::CTR_Mode<CryptoPP::DES>::Encryption ctr;
+    ctr.SetKeyWithIV(key, KEY_LEN, iv, IV_LEN);
+
+    CryptoPP::ArraySource(
+        plaintext,
+        plaintext_len,
+        true,
+        new CryptoPP::StreamTransformationFilter(
+            ctr,
+            new CryptoPP::ArraySink(ciphertext, plaintext_len)
+        )
+    );
+} // end CryptoPP_Encrypt_CTR
+
+void CryptoPP_Decrypt_CTR(unsigned char* ciphertext, int ciphertext_len, unsigned char* plaintext, unsigned char* key, unsigned char* iv) {
+    CryptoPP::CTR_Mode<CryptoPP::DES>::Decryption ctr;
+    ctr.SetKeyWithIV(key, KEY_LEN, iv, IV_LEN);
+
+    CryptoPP::ArraySource(
+        ciphertext,
+        ciphertext_len,
+        true,
+        new CryptoPP::StreamTransformationFilter(
+            ctr,
+            new CryptoPP::ArraySink(plaintext, ciphertext_len)
+        )
+    );
+} // end CryptoPP_Decrypt_CTR
 
 
 
@@ -340,12 +404,12 @@ int main() {
 
     cout << "CTR:\n";
     t1 = high_resolution_clock::now();
-    OpenSSL_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
+    CryptoPP_Encrypt_CTR(plaintext, plaintext_len, ciphertext, key, iv);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tEncrypt: " << ms_double.count() << " ms\n";
     t1 = high_resolution_clock::now();
-    OpenSSL_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CTR);
+    CryptoPP_Decrypt_CTR(ciphertext, ciphertext_len, plaintext, key, iv);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";

@@ -7,6 +7,11 @@
 #include <openssl/des.h>
 #include <openssl/rand.h>
 
+#include <cryptopp/modes.h>
+#include <cryptopp/des.h>
+#include <cryptopp/filters.h>
+#include <cryptopp/osrng.h>
+
 # define IV_LEN 8
 # define BLOCK_LEN 8
 # define KEY_LEN 24
@@ -260,11 +265,86 @@ void Custom_Decrypt(unsigned char* ciphertext, int ciphertext_len, unsigned char
 
 void OpenSSL_Encrypt(unsigned char* plaintext, int plaintext_len, unsigned char* ciphertext, unsigned char* key, unsigned char* iv, int mode){
     // https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!ctx)
+        handle_error("Failed to create EVP_CIPHER_CTX.");
+
+    const EVP_CIPHER* cipher = nullptr;
+
+    // Select cipher mode
+    switch (mode) {
+        case CBC:
+            cipher = EVP_des_ede3_cbc();
+            break;
+        case OFB:
+            cipher = EVP_des_ede3_ofb();
+            break;
+        default:
+            handle_error("Unknown OpenSSL Encryption Mode.");
+    }
+
+    // Initialize Encryption
+    if (1 != EVP_EncryptInit_ex(ctx, cipher, nullptr, key, iv))
+        handle_error("Encryption Initialization Failed.");
+
+    int len = 0;
+    int ciphertext_len = 0;
+
+    // Encrypt plaintext
+    if (1 != EVP_EncryptUpdate(ctx, ciphertext, &len, plaintext, plaintext_len))
+        handle_error("Encryption Update Failed.");
+    ciphertext_len += len;
+
+    // Finalize encryption
+    if (1 != EVP_EncryptFinal_ex(ctx, ciphertext + ciphertext_len, &len))
+        handle_error("Encryption Finalize Failed.");
+    ciphertext_len += len;
+
+    EVP_CIPHER_CTX_free(ctx);
+
 } // end OpenSSL_Encrypt
 
 void OpenSSL_Decrypt(unsigned char* ciphertext, int ciphertext_len, unsigned char* plaintext, unsigned char* key, unsigned char* iv, int mode){
     // https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption
 } // end OpenSSL_Decrypt
+
+void CryptoPP_Encrypt(unsigned char* plaintext, int plaintext_len, unsigned char* ciphertext, unsigned char* key, unsigned char* iv, int mode){
+    if (mode == CTR) {
+        using namespace CryptoPP;
+        try {
+            CTR_Mode<DES_EDE3>::Encryption encryption;
+            encryption.SetKeyWithIV(key, KEY_LEN, iv);
+
+            // Encrypt the plaintext using CTR mode
+            StreamTransformationFilter stfEncrypt(encryption, new ArraySink(ciphertext, plaintext_len));
+            stfEncrypt.Put(plaintext, plaintext_len);
+            stfEncrypt.MessageEnd();
+        } catch (const CryptoPP::Exception& e) {
+            handle_error("Crypto++ Encryption failed: " + std::string(e.what()));
+        }
+    } else {
+        handle_error("Unknown Encryption Mode.");
+    }
+}
+
+void CryptoPP_Decrypt(unsigned char* ciphertext, int ciphertext_len, unsigned char* plaintext, unsigned char* key, unsigned char* iv, int mode){
+    if (mode == CTR) {
+        using namespace CryptoPP;
+        try {
+            CTR_Mode<DES_EDE3>::Decryption decryption;
+            decryption.SetKeyWithIV(key, KEY_LEN, iv);
+
+            // Decrypt the ciphertext using CTR mode
+            StreamTransformationFilter stfDecrypt(decryption, new ArraySink(plaintext, ciphertext_len));
+            stfDecrypt.Put(ciphertext, ciphertext_len);
+            stfDecrypt.MessageEnd();
+        } catch (const CryptoPP::Exception& e) {
+            handle_error("Crypto++ Decryption failed: " + std::string(e.what()));
+        }
+    } else {
+        handle_error("Unknown Decryption Mode.");
+    }
+}
 
 
 
@@ -371,12 +451,12 @@ int main() {
 
     cout << "CTR:\n";
     t1 = high_resolution_clock::now();
-    Custom_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
+    CryptoPP_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tEncrypt: " << ms_double.count() << " ms\n";
     t1 = high_resolution_clock::now();
-    Custom_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CTR);
+    CryptoPP_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CTR);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";
