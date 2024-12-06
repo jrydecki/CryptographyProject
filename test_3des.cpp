@@ -5,6 +5,7 @@
 
 #include <openssl/aes.h>
 #include <openssl/des.h>
+#include <openssl/err.h>
 #include <openssl/rand.h>
 
 #include <cryptopp/modes.h>
@@ -29,6 +30,15 @@ enum MODE {
 /////////////////////////////
 void handle_error(string message){
     cout << message << "\n";
+
+    	unsigned long errCode;
+	while ((errCode = ERR_get_error()) != 0) {
+        char errBuff[256];
+        // Convert error code to a human-readable string
+        ERR_error_string_n(errCode, errBuff, sizeof(errBuff));
+        std::cerr << "OpenSSL Error: " << errBuff << std::endl;
+    }
+
     exit(1);
 }
 
