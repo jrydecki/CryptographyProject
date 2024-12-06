@@ -338,6 +338,9 @@ void OpenSSL_Decrypt(unsigned char* ciphertext, int ciphertext_len, unsigned cha
     if (1 != EVP_DecryptInit_ex(ctx, cipher, nullptr, key, iv))
         handle_error("Decryption Initialization Failed.");
 
+    // Ensure consistent padding
+    EVP_CIPHER_CTX_set_padding(ctx, 0);
+
     int len = 0;
     int plaintext_len = 0;
 
@@ -458,12 +461,12 @@ int main() {
 
     cout << "CTR:\n";
     t1 = high_resolution_clock::now();
-    OpenSSL_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
+    CryptoPP_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tEncrypt: " << ms_double.count() << " ms\n";
     t1 = high_resolution_clock::now();
-    OpenSSL_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CTR);
+    CryptoPP_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CTR);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";
@@ -497,18 +500,16 @@ int main() {
 
     cout << "CTR:\n";
     t1 = high_resolution_clock::now();
-    CryptoPP_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
+    Custom_Encrypt(plaintext, plaintext_len, ciphertext, key, iv, CTR);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tEncrypt: " << ms_double.count() << " ms\n";
     t1 = high_resolution_clock::now();
-    CryptoPP_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CTR);
+    Custom_Decrypt(ciphertext, ciphertext_len, plaintext, key, iv, CTR);
     t2 = high_resolution_clock::now();
     ms_double = t2 - t1;
     cout << "\tDecrypt: " << ms_double.count() << " ms\n";
 
     cout << "********************\n";
-
-
 
 } // end main
