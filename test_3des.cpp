@@ -409,7 +409,7 @@ int main() {
     duration<double, std::milli> ms_double;
 
     // Open Data/Message File
-    ifstream iFile("test.txt", std::ios::binary | std::ios::ate);
+    ifstream iFile("data-10mb.bin", std::ios::binary | std::ios::ate);
     if (!iFile) {
         handle_error("Could not open file.");
     }
@@ -421,8 +421,8 @@ int main() {
     int ciphertext_len = plaintext_len + Get_Needed_Padding(plaintext_len, block_size);
     unsigned char key[KEY_LEN];
     unsigned char iv[IV_LEN];
-    unsigned char ciphertext[ciphertext_len];
-    unsigned char plaintext[plaintext_len];
+    unsigned char* ciphertext = new unsigned char[ciphertext_len];
+    unsigned char* plaintext = new unsigned char[plaintext_len];
     Set_Key(key, KEY_LEN);
     Set_IV(iv, IV_LEN);
     
@@ -431,6 +431,13 @@ int main() {
     iFile.read(reinterpret_cast<char*>(plaintext), plaintext_len);
     iFile.close();
     
+    // Encrypt/Decrypt To Get Rid of Weird Super-Long-First-Run
+    unsigned char junk_plain[BLOCK_LEN];
+    unsigned char junk_cipher[BLOCK_LEN];
+    Custom_CBC_Encrypt(junk_plain, BLOCK_LEN, junk_cipher, key, iv);
+    Custom_CBC_Decrypt(junk_cipher, BLOCK_LEN, junk_plain, key, iv);
+    
+
     cout << "*** 3DES ***\n";
 
     /////////////////// OpenSSL ///////////////////
