@@ -1,0 +1,398 @@
+{
+   "SYSTEM INFO": {
+      "OS": "Linux",
+      "Machine": "x86_64",
+      "Processor": "AMD Ryzen 7 5800X 8-Core Processor"
+   },
+   "RUNS": [
+      {
+         "RUN": 0,
+         "AES": {
+            "OpenSSL": {
+               "Library": "OpenSSL",
+               "CBC": {
+                  "Encryption (ms)": 920.441,
+                  "Decryption (ms)": 122.591
+               },
+               "OFB": {
+                  "Encryption (ms)": 1356.11,
+                  "Decryption (ms)": 1275.89
+               },
+               "CTR": {
+                  "Encryption (ms)": 142.986,
+                  "Decryption (ms)": 142.468
+               }
+            },
+            "Custom": {
+               "Library": "Custom",
+               "CBC": {
+                  "Encryption (ms)": 41444.9,
+                  "Decryption (ms)": 42060.3
+               },
+               "OFB": {
+                  "Encryption (ms)": 43007.3,
+                  "Decryption (ms)": 42676.5
+               },
+               "CTR": {
+                  "Encryption (ms)": 41529.8,
+                  "Decryption (ms)": 41452.2
+               }
+            }
+         },
+         "DES": {
+            "OpenSSL": {
+               "Library": "OpenSSL",
+               "CBC": {
+                  "Encryption (ms)": 10053.9,
+                  "Decryption (ms)": 9335.72
+               },
+               "OFB": {
+                  "Encryption (ms)": 9859.62,
+                  "Decryption (ms)": 9795.52
+               },
+               "CTR": {
+                  "Encryption (ms)": 11016.7,
+                  "Decryption (ms)": 10917.8
+               }
+            },
+            "Custom": {
+               "Library": "Custom",
+               "CBC": {
+                  "Encryption (ms)": 119908.0,
+                  "Decryption (ms)": 110583.0
+               },
+               "OFB": {
+                  "Encryption (ms)": 120885.0,
+                  "Decryption (ms)": 121182.0
+               },
+               "CTR": {
+                  "Encryption (ms)": 119843.0,
+                  "Decryption (ms)": 119614.0
+               }
+            }
+         },
+         "3DES": {
+            "OpenSSL": {
+               "Library": "OpenSSL",
+               "CBC": {
+                  "Encryption (ms)": 26597.8,
+                  "Decryption (ms)": 25943.0
+               },
+               "OFB": {
+                  "Encryption (ms)": 26635.4,
+                  "Decryption (ms)": 26646.5
+               },
+               "CTR": {
+                  "Encryption (ms)": 27396.9,
+                  "Decryption (ms)": 27415.4
+               }
+            },
+            "Custom": {
+               "Library": "Custom",
+               "CBC": {
+                  "Encryption (ms)": 133255.0,
+                  "Decryption (ms)": 133472.0
+               },
+               "OFB": {
+                  "Encryption (ms)": 134399.0,
+                  "Decryption (ms)": 135154.0
+               },
+               "CTR": {
+                  "Encryption (ms)": 133420.0,
+                  "Decryption (ms)": 133573.0
+               }
+            }
+         }
+      },
+      {
+         "RUN": 1,
+         "AES": {
+            "OpenSSL": {
+               "Library": "OpenSSL",
+               "CBC": {
+                  "Encryption (ms)": 933.959,
+                  "Decryption (ms)": 126.093
+               },
+               "OFB": {
+                  "Encryption (ms)": 1328.03,
+                  "Decryption (ms)": 1277.12
+               },
+               "CTR": {
+                  "Encryption (ms)": 138.858,
+                  "Decryption (ms)": 138.809
+               }
+            },
+            "Custom": {
+               "Library": "Custom",
+               "CBC": {
+                  "Encryption (ms)": 41594.5,
+                  "Decryption (ms)": 41800.1
+               },
+               "OFB": {
+                  "Encryption (ms)": 42805.1,
+                  "Decryption (ms)": 42804.6
+               },
+               "CTR": {
+                  "Encryption (ms)": 41739.2,
+                  "Decryption (ms)": 42203.3
+               }
+            }
+         },
+         "DES": {
+            "OpenSSL": {
+               "Library": "OpenSSL",
+               "CBC": {
+                  "Encryption (ms)": 9922.45,
+                  "Decryption (ms)": 9512.8
+               },
+               "OFB": {
+                  "Encryption (ms)": 10027.0,
+                  "Decryption (ms)": 9788.93
+               },
+               "CTR": {
+                  "Encryption (ms)": 10961.0,
+                  "Decryption (ms)": 10889.2
+               }
+            },
+            "Custom": {
+               "Library": "Custom",
+               "CBC": {
+                  "Encryption (ms)": 108065.0,
+                  "Decryption (ms)": 108455.0
+               },
+               "OFB": {
+                  "Encryption (ms)": 111050.0,
+                  "Decryption (ms)": 110615.0
+               },
+               "CTR": {
+                  "Encryption (ms)": 109158.0,
+                  "Decryption (ms)": 108864.0
+               }
+            }
+         },
+         "3DES": {
+            "OpenSSL": {
+               "Library": "OpenSSL",
+               "CBC": {
+                  "Encryption (ms)": 27109.2,
+                  "Decryption (ms)": 26094.6
+               },
+               "OFB": {
+                  "Encryption (ms)": 26697.9,
+                  "Decryption (ms)": 26695.3
+               },
+               "CTR": {
+                  "Encryption (ms)": 27336.8,
+                  "Decryption (ms)": 27376.2
+               }
+            },
+            "Custom": {
+               "Library": "Custom",
+               "CBC": {
+                  "Encryption (ms)": 133740.0,
+                  "Decryption (ms)": 133176.0
+               },
+               "OFB": {
+                  "Encryption (ms)": 136022.0,
+                  "Decryption (ms)": 135240.0
+               },
+               "CTR": {
+                  "Encryption (ms)": 134137.0,
+                  "Decryption (ms)": 134163.0
+               }
+            }
+         }
+      },
+      {
+         "RUN": 2,
+         "AES": {
+            "OpenSSL": {
+               "Library": "OpenSSL",
+               "CBC": {
+                  "Encryption (ms)": 929.667,
+                  "Decryption (ms)": 139.998
+               },
+               "OFB": {
+                  "Encryption (ms)": 1330.88,
+                  "Decryption (ms)": 1291.5
+               },
+               "CTR": {
+                  "Encryption (ms)": 150.93,
+                  "Decryption (ms)": 145.551
+               }
+            },
+            "Custom": {
+               "Library": "Custom",
+               "CBC": {
+                  "Encryption (ms)": 41966.1,
+                  "Decryption (ms)": 42402.8
+               },
+               "OFB": {
+                  "Encryption (ms)": 44403.4,
+                  "Decryption (ms)": 43429.2
+               },
+               "CTR": {
+                  "Encryption (ms)": 42297.7,
+                  "Decryption (ms)": 42107.9
+               }
+            }
+         },
+         "DES": {
+            "OpenSSL": {
+               "Library": "OpenSSL",
+               "CBC": {
+                  "Encryption (ms)": 9951.15,
+                  "Decryption (ms)": 9087.5
+               },
+               "OFB": {
+                  "Encryption (ms)": 9942.06,
+                  "Decryption (ms)": 9831.01
+               },
+               "CTR": {
+                  "Encryption (ms)": 11068.3,
+                  "Decryption (ms)": 10975.3
+               }
+            },
+            "Custom": {
+               "Library": "Custom",
+               "CBC": {
+                  "Encryption (ms)": 108546.0,
+                  "Decryption (ms)": 108646.0
+               },
+               "OFB": {
+                  "Encryption (ms)": 109821.0,
+                  "Decryption (ms)": 111170.0
+               },
+               "CTR": {
+                  "Encryption (ms)": 108735.0,
+                  "Decryption (ms)": 108499.0
+               }
+            }
+         },
+         "3DES": {
+            "OpenSSL": {
+               "Library": "OpenSSL",
+               "CBC": {
+                  "Encryption (ms)": 26811.3,
+                  "Decryption (ms)": 25973.9
+               },
+               "OFB": {
+                  "Encryption (ms)": 26666.0,
+                  "Decryption (ms)": 26667.7
+               },
+               "CTR": {
+                  "Encryption (ms)": 27643.6,
+                  "Decryption (ms)": 27416.3
+               }
+            },
+            "Custom": {
+               "Library": "Custom",
+               "CBC": {
+                  "Encryption (ms)": 133075.0,
+                  "Decryption (ms)": 134545.0
+               },
+               "OFB": {
+                  "Encryption (ms)": 135158.0,
+                  "Decryption (ms)": 135354.0
+               },
+               "CTR": {
+                  "Encryption (ms)": 133007.0,
+                  "Decryption (ms)": 132181.0
+               }
+            }
+         }
+      }
+   ],
+   "STATISTICS": {
+      "AES": {
+         "OpenSSL": {
+            "CBC": {
+               "Average Encryption Time (ms)": 928.0223333333333,
+               "Average Decryption Time (ms)": 129.56066666666666
+            },
+            "OFB": {
+               "Average Encryption Time (ms)": 1338.34,
+               "Average Decryption Time (ms)": 1281.5033333333333
+            },
+            "CTR": {
+               "Average Encryption Time (ms)": 144.258,
+               "Average Decryption Time (ms)": 142.27599999999998
+            }
+         },
+         "Custom": {
+            "CBC": {
+               "Average Encryption Time (ms)": 41668.5,
+               "Average Decryption Time (ms)": 42087.73333333333
+            },
+            "OFB": {
+               "Average Encryption Time (ms)": 43405.26666666666,
+               "Average Decryption Time (ms)": 42970.1
+            },
+            "CTR": {
+               "Average Encryption Time (ms)": 41855.566666666666,
+               "Average Decryption Time (ms)": 41921.13333333333
+            }
+         }
+      },
+      "DES": {
+         "OpenSSL": {
+            "CBC": {
+               "Average Encryption Time (ms)": 9975.833333333334,
+               "Average Decryption Time (ms)": 9312.006666666666
+            },
+            "OFB": {
+               "Average Encryption Time (ms)": 9942.893333333333,
+               "Average Decryption Time (ms)": 9805.153333333334
+            },
+            "CTR": {
+               "Average Encryption Time (ms)": 11015.333333333334,
+               "Average Decryption Time (ms)": 10927.433333333334
+            }
+         },
+         "Custom": {
+            "CBC": {
+               "Average Encryption Time (ms)": 112173.0,
+               "Average Decryption Time (ms)": 109228.0
+            },
+            "OFB": {
+               "Average Encryption Time (ms)": 113918.66666666667,
+               "Average Decryption Time (ms)": 114322.33333333333
+            },
+            "CTR": {
+               "Average Encryption Time (ms)": 112578.66666666667,
+               "Average Decryption Time (ms)": 112325.66666666667
+            }
+         }
+      },
+      "3DES": {
+         "OpenSSL": {
+            "CBC": {
+               "Average Encryption Time (ms)": 26839.433333333334,
+               "Average Decryption Time (ms)": 26003.833333333332
+            },
+            "OFB": {
+               "Average Encryption Time (ms)": 26666.433333333334,
+               "Average Decryption Time (ms)": 26669.833333333332
+            },
+            "CTR": {
+               "Average Encryption Time (ms)": 27459.099999999995,
+               "Average Decryption Time (ms)": 27402.633333333335
+            }
+         },
+         "Custom": {
+            "CBC": {
+               "Average Encryption Time (ms)": 133356.66666666666,
+               "Average Decryption Time (ms)": 133731.0
+            },
+            "OFB": {
+               "Average Encryption Time (ms)": 135193.0,
+               "Average Decryption Time (ms)": 135249.33333333334
+            },
+            "CTR": {
+               "Average Encryption Time (ms)": 133521.33333333334,
+               "Average Decryption Time (ms)": 133305.66666666666
+            }
+         }
+      }
+   }
+}
