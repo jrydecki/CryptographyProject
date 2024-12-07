@@ -391,7 +391,7 @@ int main() {
     duration<double, std::milli> ms_double;
 
     // Open Data/Message File
-    ifstream iFile("data-10mb.bin", std::ios::binary | std::ios::ate);
+    ifstream iFile("data-1mb.bin", std::ios::binary | std::ios::ate);
     if (!iFile) {
         handle_error("Could not open file.");
     }
